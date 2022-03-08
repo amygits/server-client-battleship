@@ -1,0 +1,39 @@
+syntax = "proto2";
+
+package operation;
+
+option java_package = "buffers";
+option java_outer_classname = "ResponseProtos";
+
+
+// A response from the server can be any of these types 
+message Response {
+  enum ResponseType {
+    GREETING = 0;     // after the client sends the name they get greeted -- message field 
+    LEADER = 1;       // sends the leader board -- field leader
+    TASK = 2;         // sends the "task" which includes what the user needs (basically asking them to give row and column) to do and the image and a hit - fields task, image, hit (optional)
+    WON = 3;          // if all ships have been found -- image field
+    ERROR = 4;        // if something went wrong, e.g. out of bounds row/col or wrong request -- message field informing the user what went wrong in detail
+    BYE = 5;          // client wants to quit - message field with bye message 
+  }
+
+  optional ResponseType responseType = 1 [default = GREETING];
+
+
+  // Possible fields, see above for when to use which field
+  repeated Entry leader = 3;        // leader board as repeated list -- LEADER
+
+  optional string task = 4;         // the task for the client -- TASK 
+  optional string image = 5;        // the current image -- TASK, WON
+  optional bool hit = 6;           // true if it is a hit, false if it is a miss or was already revealed -- TASK
+
+  optional string message = 7;      // message for bye, greeting and error -- GREETING, ERROR, BYE
+}
+
+
+// entry for the leader board
+message Entry {
+	optional string name = 1;         // name of user
+	optional int32 wins = 2;          // how many wins
+	optional int32 logins = 3;        // how many logins
+}
