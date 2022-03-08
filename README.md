@@ -1,4 +1,4 @@
-# Assignment 4 Activity 2
+# Battleship over Client/Server
 ## Description:
 This program will start up a new simple Battleship game on a server, which then multiple clients can join in order to complete the game.
 
